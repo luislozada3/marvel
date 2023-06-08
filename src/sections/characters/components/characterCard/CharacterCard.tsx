@@ -1,36 +1,27 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import './character-card.css'
 
 import { Character } from '../../../../modules/characters/domain/Character'
-
-import {
-  canYouAddMoreFavouriteCharacters,
-  characterIsAlreadyAddedInFavorite
-} from '../../../../modules/characters/domain/CharactersFavorites'
-
-import ContextCharacters from '../../context/CharacterContext'
 
 import useAddToFavorite from '../../hooks/useAddToFavorite'
 import useRemoveFavorite from '../../hooks/useRemoveFavorite'
 
 interface CharacterCardProps {
   character: Character
+  isFavorite: boolean
+  canAddMoreFavorites: boolean
 }
 
-const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
-  const context = useContext(ContextCharacters)
+const CharacterCard: React.FC<CharacterCardProps> = ({ character, isFavorite, canAddMoreFavorites }) => {
   const { AddToFavorite } = useAddToFavorite()
   const { removeFavorite } = useRemoveFavorite()
-
-  const isFavorite = () => characterIsAlreadyAddedInFavorite(context.favorites, character)
-  const canAddMoreFavorites = () => canYouAddMoreFavouriteCharacters(context.favorites.length)
 
   return (
     <div className="character-card">
       <div className="character-card__header">
         {
-          isFavorite()
+          isFavorite
             ? (
                 <i
                   className="character-card__favorite-icon"
@@ -57,7 +48,7 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
           <button
             className='btn'
             type="button"
-            disabled={isFavorite() || !canAddMoreFavorites()}
+            disabled={isFavorite || !canAddMoreFavorites}
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={async () => {
               await AddToFavorite(character)
@@ -69,7 +60,7 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
           <button
             className='btn'
             type="button"
-            disabled={!isFavorite()}
+            disabled={!isFavorite}
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={async () => {
               await removeFavorite(character.id)

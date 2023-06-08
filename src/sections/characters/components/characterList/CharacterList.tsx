@@ -9,10 +9,18 @@ import ContextCharacters from '../../context/CharacterContext'
 import CharacterCard from '../characterCard/CharacterCard'
 
 import useCharacters from '../../hooks/useCharacters'
+import {
+  canYouAddMoreFavouriteCharacters,
+  characterIsAlreadyAddedInFavorite
+} from '../../../../modules/characters/domain/CharactersFavorites'
 
 const CharacterList = () => {
   const { loading, error } = useCharacters()
-  const { characters } = useContext(ContextCharacters)
+  const { characters, favorites } = useContext(ContextCharacters)
+
+  const canAddMoreFavorites = canYouAddMoreFavouriteCharacters(
+    favorites.length
+  )
 
   if (loading) {
     return <div style={{ color: '#ffffff' }}>loading...</div>
@@ -23,9 +31,20 @@ const CharacterList = () => {
   }
 
   return (
-    <div className='character-grid'>
+    <div className="character-grid">
       {characters.map((character: Character) => {
-        return <CharacterCard character={character} key={character.id} />
+        const isFavorite = characterIsAlreadyAddedInFavorite(
+          favorites,
+          character
+        )
+        return (
+          <CharacterCard
+            character={character}
+            isFavorite={isFavorite}
+            key={character.id}
+            canAddMoreFavorites={canAddMoreFavorites}
+          />
+        )
       })}
     </div>
   )
