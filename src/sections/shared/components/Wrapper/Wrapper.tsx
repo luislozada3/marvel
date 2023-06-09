@@ -1,7 +1,7 @@
 import './wrapper.css'
 
 interface WrapperProps {
-  children: JSX.Element | JSX.Element[]
+  children: React.ReactNode | React.ReactNode[]
 }
 
 const Wrapper = ({ children }: WrapperProps) => {

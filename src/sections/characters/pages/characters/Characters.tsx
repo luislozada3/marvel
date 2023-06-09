@@ -1,19 +1,23 @@
 import React from 'react'
 
-import CharacterList from '../../components/characterList/CharacterList'
-
-import { CharactersContextProvider } from '../../context/CharacterContext'
-
 import './character.css'
+
 import Wrapper from '../../../shared/components/Wrapper/Wrapper'
+import Search from '../../Search/Search'
+import FavoritesCounter from '../../components/favoritesCounter/FavoritesCounter'
+import CharacterList from '../../components/characterList/CharacterList'
 
 const Characters: React.FC = () => {
   return (
     <Wrapper>
-      <CharactersContextProvider>
-        <h1 className='character__title'>Characters</h1>
+      <div className='character'>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h1 className='character__title'>Characters</h1>
+          <FavoritesCounter />
+        </div>
+        <Search />
         <CharacterList />
-      </CharactersContextProvider>
+      </div>
     </Wrapper>
   )
 }

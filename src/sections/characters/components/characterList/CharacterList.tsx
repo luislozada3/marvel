@@ -8,35 +8,28 @@ import ContextCharacters from '../../context/CharacterContext'
 
 import CharacterCard from '../characterCard/CharacterCard'
 
-import useCharacters from '../../hooks/useCharacters'
+import NotificationMessage from '../../../shared/components/NotificationMessage/NotificationMessage'
+
 import {
   canYouAddMoreFavouriteCharacters,
   characterIsAlreadyAddedInFavorite
 } from '../../../../modules/characters/domain/CharactersFavorites'
 
 const CharacterList = () => {
-  const { loading, error } = useCharacters()
-  const { characters, favorites } = useContext(ContextCharacters)
+  const { characters, favorites, loading, error } = useContext(ContextCharacters)
 
-  const canAddMoreFavorites = canYouAddMoreFavouriteCharacters(
-    favorites.length
-  )
+  if (loading) return <NotificationMessage type='info' message={'loading...'} />
 
-  if (loading) {
-    return <div style={{ color: '#ffffff' }}>loading...</div>
-  }
+  if (error) return <NotificationMessage type='danger' message={error} />
 
-  if (error) {
-    return <div style={{ color: 'red' }}>{error}</div>
-  }
+  if (characters.length === 0) return <NotificationMessage type='info' message={'no matches found...'} />
+
+  const canAddMoreFavorites = canYouAddMoreFavouriteCharacters(favorites.length)
 
   return (
     <div className="character-grid">
       {characters.map((character: Character) => {
-        const isFavorite = characterIsAlreadyAddedInFavorite(
-          favorites,
-          character
-        )
+        const isFavorite = characterIsAlreadyAddedInFavorite(favorites, character)
         return (
           <CharacterCard
             character={character}

@@ -1,0 +1,23 @@
+.button {
+  height: 100%;
+  border: 1px solid #ED8527;
+  border-left: none;
+  padding: 0 1.2em;
+  background-color: #ED8527;
+  color: #2c2c2c;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: Condensed Bold, Trebuchet MS, Helvetica, Arial, sans-serif;
+}
+
+.button:hover {
+  background-color: #eb7208;
+  border-color: #eb7208;
+  cursor: pointer;
+}
+
+.button:disabled {
+  color: #484848;
+  background-color: #ec8f3f;
+  border-color: #ec8f3f;
+}

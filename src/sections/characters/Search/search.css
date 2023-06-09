@@ -1,0 +1,19 @@
+.form-search {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 2em;
+}
+
+.form-search__input {
+  height: 100%;
+  width: 100%;
+  max-width: 44.5em;
+  box-sizing: border-box;
+  padding: .5em 1em .5em .5em;
+  outline: none;
+  background-color: #2c2c2c;
+  border: 1px solid #2c2c2c;
+  color: #9c9c9c;
+  font-family: Condensed Bold, Trebuchet MS, Helvetica, Arial, sans-serif;
+}

@@ -2,7 +2,7 @@ import { Character } from './Character'
 
 export type CharactersFavorites = Character[]
 
-const MAXIMUM_NUMBER_OF_FAVORITE_CHARACTERS = 5
+export const MAXIMUM_NUMBER_OF_FAVORITE_CHARACTERS = 5
 
 export const canYouAddMoreFavouriteCharacters = (totalCharactersAddedToFavorites: number) => {
   return totalCharactersAddedToFavorites < MAXIMUM_NUMBER_OF_FAVORITE_CHARACTERS

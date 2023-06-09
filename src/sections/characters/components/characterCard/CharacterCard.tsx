@@ -25,7 +25,6 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character, isFavorite, ca
             ? (
                 <i
                   className="character-card__favorite-icon"
-                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
                   onClick={async () => {
                     await removeFavorite(character.id)
                   }}
@@ -40,6 +39,9 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character, isFavorite, ca
           src={character.thumbnail}
           alt={character.name}
           className="character-card__img"
+          loading='lazy'
+          width={300}
+          height={180}
         />
       </div>
       <div className="character-card__body">
@@ -49,7 +51,6 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character, isFavorite, ca
             className='btn'
             type="button"
             disabled={isFavorite || !canAddMoreFavorites}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={async () => {
               await AddToFavorite(character)
             }}
@@ -61,7 +62,6 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character, isFavorite, ca
             className='btn'
             type="button"
             disabled={!isFavorite}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={async () => {
               await removeFavorite(character.id)
             }}

@@ -33,8 +33,17 @@ const deleteFavorite = async (characterId: number) => {
   localStorage.setItem('favoriteCharacters', JSON.stringify(newFavoritesArray))
 }
 
+const getByName = async (name: string) => {
+  const path = name.trim() === '' ? '/characters' : `/characters?name=${name}`
+  const response = await httpFetch.get<ReponseCharacterDTO>(path)
+  const { results } = response.data
+  const characters = results.map(getAllCharactersMappers)
+  return characters
+}
+
 const FetchCharacterRepository: CharacterRepository = {
   getAll,
+  getByName,
   getFavorites,
   addToFavorite,
   deleteFavorite
