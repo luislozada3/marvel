@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 
 import { Character } from '../../../modules/characters/domain/Character'
 import { CharactersFavorites } from '../../../modules/characters/domain/CharactersFavorites'
@@ -7,16 +7,32 @@ import getAllCharacters from '../../../modules/characters/application/getAll/get
 
 import FetchCharacterRepository from '../../../modules/characters/infrastructure/FetchCharacterRepository'
 
-const ContextCharacters = createContext<any>({})
+interface IContextCharacters {
+  loading: boolean
+  setLoading?: React.Dispatch<React.SetStateAction<boolean>>
+  error: string
+  setError?: React.Dispatch<React.SetStateAction<string>>
+  characters: Character[]
+  setCharacters?: React.Dispatch<React.SetStateAction<Character[]>>
+  favorites: CharactersFavorites
+  setFavorites?: React.Dispatch<React.SetStateAction<CharactersFavorites>>
+}
+
+const ContextCharacters = createContext<IContextCharacters>({
+  loading: false,
+  error: '',
+  characters: [],
+  favorites: []
+})
 
 interface CharactersContextProviderProps {
   children: JSX.Element | JSX.Element[]
 }
 
-const localstorageFavorite = localStorage.getItem('favoriteCharacters') ?? '[]'
-const INITIAL_FAVORITES = JSON.parse(localstorageFavorite)
+const localstorageFavorite: string = localStorage.getItem('favoriteCharacters') ?? '[]'
+const INITIAL_FAVORITES: CharactersFavorites = JSON.parse(localstorageFavorite)
 
-export const CharactersContextProvider = ({ children }: CharactersContextProviderProps) => {
+export const CharactersContextProvider: React.FC<CharactersContextProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>('')
   const [characters, setCharacters] = useState<Character[]>([])
@@ -27,9 +43,8 @@ export const CharactersContextProvider = ({ children }: CharactersContextProvide
       const data = await getAllCharacters(FetchCharacterRepository)
       setCharacters(data)
     } catch {
-      setError('ooopssss.... ha ocurrido un error')
+      setError('ooopssss.... an error has occurred')
     } finally {
-      console.log('prueba')
       setLoading(false)
     }
   }

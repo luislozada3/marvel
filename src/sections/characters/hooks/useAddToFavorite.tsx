@@ -10,7 +10,7 @@ import ContextCharacters from '../context/CharacterContext'
 
 const useAddToFavorite = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const context = useContext(ContextCharacters)
+  const { setFavorites } = useContext(ContextCharacters)
 
   const AddToFavorite = async (character: Character) => {
     setLoading(true)
@@ -18,7 +18,7 @@ const useAddToFavorite = () => {
       await addToFavorite(FetchCharacterRepository, character)
       const localStorageFavorites = localStorage.getItem('favoriteCharacters')
       const favorites = JSON.parse(localStorageFavorites ?? '[]')
-      context.setFavorites(favorites)
+      setFavorites?.(favorites)
       alert('character added')
     } catch (error: any) {
       alert(error.message)

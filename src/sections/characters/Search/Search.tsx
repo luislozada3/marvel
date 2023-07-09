@@ -16,14 +16,14 @@ const Search = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
+    setLoading?.(true)
     try {
       const charactersByName = await getByName(FetchCharacterRepository, name.trim())
-      setCharacters(charactersByName)
+      setCharacters?.(charactersByName)
     } catch (error) {
-      setError('ooopssss.... ha ocurrido un error')
+      setError?.('ooopssss.... ha ocurrido un error')
     } finally {
-      setLoading(false)
+      setLoading?.(false)
     }
   }
 

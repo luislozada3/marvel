@@ -7,14 +7,14 @@ import FetchCharacterRepository from '../../../modules/characters/infrastructure
 import ContextCharacters from '../context/CharacterContext'
 
 const useCharacters = () => {
-  const context = useContext(ContextCharacters)
+  const { setCharacters } = useContext(ContextCharacters)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>('')
 
   const getData = async () => {
     try {
       const data = await getAllCharacters(FetchCharacterRepository)
-      context.setCharacters(data)
+      setCharacters?.(data)
     } catch {
       setError('ooopssss.... ha ocurrido un error')
     } finally {

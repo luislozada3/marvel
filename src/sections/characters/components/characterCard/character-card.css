@@ -68,6 +68,7 @@
 
 .btn:disabled, .btn:hover:disabled {
   color: #9c9c9c;
+  cursor: default;
 }
 
 .btn:hover {

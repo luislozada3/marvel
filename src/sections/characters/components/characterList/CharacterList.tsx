@@ -22,7 +22,7 @@ const CharacterList = () => {
 
   if (error) return <NotificationMessage type='danger' message={error} />
 
-  if (characters.length === 0) return <NotificationMessage type='info' message={'no matches found...'} />
+  if (!characters || characters.length === 0) return <NotificationMessage type='info' message={'results not found...'} />
 
   const canAddMoreFavorites = canYouAddMoreFavouriteCharacters(favorites.length)
 

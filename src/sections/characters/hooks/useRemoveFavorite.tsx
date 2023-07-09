@@ -7,7 +7,7 @@ import FetchCharacterRepository from '../../../modules/characters/infrastructure
 import ContextCharacters from '../context/CharacterContext'
 
 const useRemoveFavorite = () => {
-  const context = useContext(ContextCharacters)
+  const { setFavorites } = useContext(ContextCharacters)
   const [loading, setLoading] = useState<boolean>(false)
 
   const removeFavorite = async (characterId: number) => {
@@ -16,7 +16,7 @@ const useRemoveFavorite = () => {
       await removeFavoriteCharacter(FetchCharacterRepository, characterId)
       const localStorageFavorites = localStorage.getItem('favoriteCharacters')
       const favorites = JSON.parse(localStorageFavorites ?? '[]')
-      context.setFavorites(favorites)
+      setFavorites?.(favorites)
       alert('the character is no longer favorite')
     } catch (e: any) {
       alert('error when trying to remove a favorite character')
