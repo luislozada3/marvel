@@ -1,18 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import CharacterList from '../sections/characters/components/characterList/CharacterList'
-import { CharactersContextProvider } from '../sections/characters/context/CharacterContext'
-import { Character } from '../modules/characters/domain/Character'
 import { act } from 'react-dom/test-utils'
 
-const mockCharacters: Character[] = [{
-  id: 1,
-  name: 'spider man',
-  thumbnail: 'spiderman.jpg'
-}, {
-  id: 2,
-  name: 'iron man',
-  thumbnail: 'ironman.jpg'
-}]
+import CharacterList from '../sections/characters/components/characterList/CharacterList'
+import { CharactersContextProvider } from '../sections/characters/context/CharacterContext'
+
+import { mockCharacters, mockCharactersEmpty } from '../__mocks__/mockCharacters'
+import { mockFavoritesCharactersEmpty } from '../__mocks__/mockFavoritesCharacter'
 
 jest.mock('../modules/characters/infrastructure/FetchCharacterRepository', () => ({
   getAll: jest.fn(async () => {
@@ -21,6 +14,15 @@ jest.mock('../modules/characters/infrastructure/FetchCharacterRepository', () =>
         resolve(mockCharacters)
       }, 100)
     })
+    return await response
+  }),
+  getFavorites: jest.fn(async () => {
+    const response = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockFavoritesCharactersEmpty)
+      }, 100)
+    })
+
     return await response
   })
 }))
@@ -36,8 +38,8 @@ const renderCharacterList = () => {
 }
 
 describe('CharacterList', () => {
-  describe('cuando inicia la lista', () => {
-    it('deberia mostrar un texto que diga loading cuando estan cargando los datos', async () => {
+  describe('when the list starts', () => {
+    it('should display a text that says loading when waiting for data', async () => {
       renderCharacterList()
       const loadingText = screen.getByText('loading...')
       expect(loadingText).toBeInTheDocument()
@@ -51,7 +53,7 @@ describe('CharacterList', () => {
 
     it('deberia mostrar results not found... cuando no hay personajes que mostrar', async () => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      jest.spyOn(require('../modules/characters/infrastructure/FetchCharacterRepository'), 'getAll').mockResolvedValue([])
+      jest.spyOn(require('../modules/characters/infrastructure/FetchCharacterRepository'), 'getAll').mockResolvedValue(mockCharactersEmpty)
       renderCharacterList()
       const errorText = await screen.findByText('results not found...')
       expect(errorText).toBeInTheDocument()

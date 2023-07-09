@@ -4,6 +4,7 @@ import { Character } from '../../../modules/characters/domain/Character'
 import { CharactersFavorites } from '../../../modules/characters/domain/CharactersFavorites'
 
 import getAllCharacters from '../../../modules/characters/application/getAll/getAllCharacters'
+import getFavoriteCharacters from '../../../modules/characters/application/get/getFavoriteCharacters'
 
 import FetchCharacterRepository from '../../../modules/characters/infrastructure/FetchCharacterRepository'
 
@@ -29,17 +30,16 @@ interface CharactersContextProviderProps {
   children: JSX.Element | JSX.Element[]
 }
 
-const localstorageFavorite: string = localStorage.getItem('favoriteCharacters') ?? '[]'
-const INITIAL_FAVORITES: CharactersFavorites = JSON.parse(localstorageFavorite)
-
 export const CharactersContextProvider: React.FC<CharactersContextProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>('')
   const [characters, setCharacters] = useState<Character[]>([])
-  const [favorites, setFavorites] = useState<CharactersFavorites>(INITIAL_FAVORITES)
+  const [favorites, setFavorites] = useState<CharactersFavorites>([])
 
   const getData = async () => {
     try {
+      const favorites = await getFavoriteCharacters(FetchCharacterRepository)
+      setFavorites(favorites)
       const data = await getAllCharacters(FetchCharacterRepository)
       setCharacters(data)
     } catch {
