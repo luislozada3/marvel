@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 
+import FetchCharacterRepository from '../modules/characters/infrastructure/FetchCharacterRepository'
+
 import CharacterList from '../sections/characters/components/characterList/CharacterList'
 import { CharactersContextProvider } from '../sections/characters/context/CharacterContext'
 
@@ -52,16 +54,14 @@ describe('CharacterList', () => {
     })
 
     it('deberia mostrar results not found... cuando no hay personajes que mostrar', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      jest.spyOn(require('../modules/characters/infrastructure/FetchCharacterRepository'), 'getAll').mockResolvedValue(mockCharactersEmpty)
+      jest.spyOn(FetchCharacterRepository, 'getAll').mockResolvedValue(mockCharactersEmpty)
       renderCharacterList()
       const errorText = await screen.findByText('results not found...')
       expect(errorText).toBeInTheDocument()
     })
 
     it('deberia mostrar un mensaje de error cuando no carga correctamente la lista', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      jest.spyOn(require('../modules/characters/infrastructure/FetchCharacterRepository'), 'getAll').mockImplementation(jest.fn(() => {
+      jest.spyOn(FetchCharacterRepository, 'getAll').mockImplementation(jest.fn(() => {
         throw new Error('error')
       }))
       renderCharacterList()

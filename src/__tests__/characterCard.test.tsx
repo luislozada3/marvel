@@ -28,19 +28,19 @@ const cardProps = {
 }
 
 describe('characterCard', () => {
-  describe('Prueba de character card cuando son favoritas', () => {
+  describe('character card when they are favorites', () => {
     beforeEach(() => {
       render(<CharacterCard { ...cardProps } />)
       jest.clearAllMocks()
     })
 
-    it('debe mostar una imagen', async () => {
+    it('must show an image', async () => {
       const img = screen.getByRole('img')
       expect(img).toHaveAttribute('src', cardProps.character.thumbnail)
       expect(img).toHaveAttribute('alt', cardProps.character.name)
     })
 
-    it('verificar que este deshabilitado el boton de agregar si es favorito', async () => {
+    it('verify that the add button is disabled if it is a favorite', async () => {
       const ButtonAddToFavorite = screen.getByRole('button', { name: 'Add to favorite' })
       expect(ButtonAddToFavorite).toBeDisabled()
 
@@ -49,7 +49,7 @@ describe('characterCard', () => {
       expect(mockFnAddToFavorite).not.toBeCalled()
     })
 
-    it('verificar que el boton de remover de favoritos este habilitado y que funcione', async () => {
+    it('verify that the remove from favorites button is enabled and working', async () => {
       const ButtonRemoveFavorite = screen.getByRole('button', { name: 'Remove favorite' })
       expect(ButtonRemoveFavorite).not.toBeDisabled()
 
@@ -58,7 +58,7 @@ describe('characterCard', () => {
       expect(mockFnRemoveFavorite).toBeCalled()
     })
 
-    it('debe mostrar la estrella si es favorito', async () => {
+    it('must display the star if favored', async () => {
       const starIcon = screen.getByText('⭐')
       expect(starIcon).toBeInTheDocument()
 
@@ -67,25 +67,25 @@ describe('characterCard', () => {
     })
   })
 
-  describe('Prueba de character card cuando no son favoritas', () => {
+  describe('Character card test when they are not favorites', () => {
     beforeEach(() => {
       render(<CharacterCard { ...cardProps } isFavorite={false} />)
       jest.clearAllMocks()
     })
 
-    it('no debe mostrar la estrella si no es favorito', async () => {
+    it('should not display the star if it is not a favorite', async () => {
       const starIcon = screen.queryByText('⭐')
       expect(starIcon).toBeNull()
     })
 
-    it('Debe mostrar el nombre del personaje', async () => {
+    it("Must display the character's name", async () => {
       const labelCharacterName = screen.getByRole('link', { name: cardProps.character.name })
 
       expect(labelCharacterName).toBeInTheDocument()
       expect(labelCharacterName).toHaveAttribute('href', cardProps.character.thumbnail)
     })
 
-    it('verificar que este habilitado el boton de agregar si no es favorito y que funcione', async () => {
+    it('verify that the add button is enabled if it is not a favorite and that it works', async () => {
       const ButtonAddToFavorite = screen.getByRole('button', { name: 'Add to favorite' })
       expect(ButtonAddToFavorite).not.toBeDisabled()
 
@@ -94,7 +94,7 @@ describe('characterCard', () => {
       expect(mockFnAddToFavorite).toBeCalled()
     })
 
-    it('verificar que el boton de remover de favoritos este deshabilitado y que no funcione cuando no es favorito', async () => {
+    it('verify that the remove from favorites button is disabled and that it does not work when it is not a favorite.', async () => {
       const ButtonRemoveFavorite = screen.getByRole('button', { name: 'Remove favorite' })
       expect(ButtonRemoveFavorite).toBeDisabled()
 
